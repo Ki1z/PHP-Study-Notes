@@ -41,7 +41,7 @@
 - 关系数据结构：指数据以什么方式来存储，是一种二维表的形式存储
   
 > 本质：二维表
-> <img src="../PHP-Study-Notes/Image/0OD_PV~9)JE6}4OBEXUB)VM.png">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/0OD_PV~9)JE6}4OBEXUB)VM.png">
 
 - 关系操作集合：如何来关联个管理对应的存储数据，SQL指令。
 
@@ -175,7 +175,7 @@ MySQL是一种C/S结构：客户端和服务端
 
   *-p代表password，举例：-p:root，<b>此处的p必须小写</b>*
 
-<img src="../PHP-Study-Notes/Image/@A6(R6C{X]E4@@E2O$1(%25EC.png">
+<img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@A6(R6C{X]E4@@E2O$1(%EC.png">
 
 **连接认证基本语法**
 
