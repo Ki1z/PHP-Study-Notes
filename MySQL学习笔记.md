@@ -1,13 +1,13 @@
 # Ki1z's MySQL学习笔记
 
-<br/>
+`更新时间：2023-10-14`
 
 # 数据库介绍
 
 ## 数据库概念
 
 数据库是按照数据结构来组织，存储和管理数据的建立在计算机存储设备上的仓库
-。
+
 ## 数据库分类
 
 **网络数据库**
@@ -41,7 +41,7 @@
 - 关系数据结构：指数据以什么方式来存储，是一种二维表的形式存储
   
 > 本质：二维表
-> ![]()
+> <img src="../PHP-Study-Notes/Image/0OD_PV~9)JE6}4OBEXUB)VM.png">
 
 - 关系操作集合：如何来关联个管理对应的存储数据，SQL指令。
 
@@ -66,8 +66,125 @@ Oracle , DB2 , Microsoft SQL Server , Microsoft Access , MySQL , SQLite
 
 - 大型关系型数据库：Oracle , DB2
 
-> MySQL当前也是跟Oracle是一个公司，隶属于Oraccle
+*MySQL当前跟Oracle是一个公司，隶属于Oraccle*
 
 ---
 
 # SQL介绍
+
+## SQL基本介绍
+
+Structured Query Language，结构化查询语言，简称SQL，是一种特殊目的的编程语言，是一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统，同时也是数据库脚本文件的扩展名
+
+*SQL就是专门为关系型数据库而存在的*
+
+## SQL分类
+
+**数据查询语言** `Data Query Language`
+
+其语句，也称为“数据检索语句”，用以从表中获得数据，确定数据是怎样在应用程序给出。保留字 `SELECT` 是DQL（也是所有SQL）使用最多的动词，其他DQL常用的保留字有 `WHERE` , `ORDER BY` , `GROUP BY` 和 `HAVING` 。这些DQL保留字常与其他类型的SQL一起使用。
+
+*专门用于查询数据*
+
+**数据操作语言** `Data Manipulation Language`
+
+其语句包括动词 `INSERT` , `UPDATE` 和 `DELETE` 。它们分别用于修改和删除表中的行。也成为动作查询语句。
+
+*专门用于写数据*
+
+**事务处理语言** `Transaction Control Language`
+
+它的语句能确保被DML所影响的表的所有行及时得以更新。TPL语句包括 `BEGIN` , `TRANSACTION` , `COMMIT` 和 `ROLLBACK` 。（不是所有的关系型数据库都提供事务安全处理）
+
+*专门用于事务安全处理*
+
+**数据控制语言** `Data Control Language`
+
+它的语句通过 `GRANT` 和 `REVOKE` 获得许可，确定单个用户和用户组对数据对象的访问。它的某些RDBMS可用 `GRANT` 和 `REVOKE` 控制对表单个列的访问。
+
+*专门用于权限管理*
+
+**数据定义语言** `Data Definition Language`
+
+其语句包括动词 `CREATE` 和 `DROP` 。在数据库中创建新表或删除表，为表加入索引等。DDL包括许多与人数据库目录中获得数据有关的保留字。它也是动作查询的一部分。
+
+---
+
+# MySQL介绍
+
+## MySQL基本介绍
+
+MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司研发，目前属于Oracle旗下产品。MySQL是最流行的关系型数据库管理系统之一，在WEB应用方面，MySQL是最好的RDBMS（Relational Database Management System 关系数据库管理系统）应用软件。 
+
+- MySQL是一款开源免费的产品
+
+- MySQL对PHP的支持是最好的
+
+*MySQL中用到的指令就是SQL指令*
+
+## 启动和停止MySQL服务
+
+MySQL是一种C/S结构：客户端和服务端
+
+服务端对应的软件：Mysqld.exe
+
+**命令行方式**
+
+通过Windows下打开CMD控制台，然后使用命令进行管理
+
+`Net start 服务(mysql)` ：开启服务
+`Net stop 服务(mysql)`：停止服务
+
+**系统服务方式**
+
+*前提：在安装MySQL的时候将其添加到了Windows的服务中*
+
+- 方式 1：进入服务
+
+  > 右键此计算机 > 管理 > 服务和应用程序 > 服务 > 找到MySQL > 启动
+
+- 方式 2：通过命令行
+
+  > `Win` + `R` > 输入 `services.msc` > 找到MySQL > 启动
+
+## 退出和登录MySQL系统
+
+通过客户端（mysql.exe）与服务器进行连接认证，就可以进行操作
+
+*通常：服务端与客户端不在同一台电脑上*
+
+**登录**
+
+1. 找到mysql.exe
+
+  *通过cmd控制台，如果在安装的时候指定了mysql.exe所在的路径为环境变量，就可以直接访问；如果没有，就必须进入mysql.exe所在路径*
+
+2. 输入对应的服务器地址 `-h`
+
+  *-h代表host，举例：-h[IP地址/域名]*
+
+3. 输入对应服务器中MySQL监听的端口 `-P`
+
+  *-P代表port，举例：-P:3306，<b>此处的P必须大写</b>*
+
+4. 输入用户名 `-u`
+
+  *-u代表user，举例：-u:root*
+
+5. 输入密码 `-p`
+
+  *-p代表password，举例：-p:root，<b>此处的p必须小写</b>*
+
+<img src="../PHP-Study-Notes/Image/@A6(R6C{X]E4@@E2O$1(%25EC.png">
+
+**连接认证基本语法**
+
+```
+Mysql.exe/mysql -h127.0.0.1 -P3306 -uroot -proot
+```
+
+注意事项
+
+- 通常端口都可以默认，MySQL的默认监听端口通常都是3306
+
+- 密码的输入可以先输入-p，直接换行，然后再以密文的方式输入密码
