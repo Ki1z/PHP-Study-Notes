@@ -41,7 +41,7 @@
 - 关系数据结构：指数据以什么方式来存储，是一种二维表的形式存储
   
 > 本质：二维表
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/0OD_PV~9)JE6}4OBEXUB)VM.png">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/0OD_PV~9)JE6%7D4OBEXUB)VM.png?raw=true">
 
 - 关系操作集合：如何来关联个管理对应的存储数据，SQL指令。
 
