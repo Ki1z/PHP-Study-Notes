@@ -234,7 +234,7 @@ MySQL服务端架构由以下几层构成：
 
 数据库是数据存储的最外层（最大单元）
 
-> DBMS > DB > Table > Field
+> DBMS（数据库管理系统） > DB（数据库） > Table（表） > Field（字段）
 
 ## 创建数据库
 
@@ -285,15 +285,16 @@ create database <databasename> collate {collationname};
   show databases like {'matchmode'};
   ```
 
-- <div id="match_mode">匹配模式 MatchMode</div>
+- <div id="match_mode">匹配模式（通配符） MatchMode</div>
 
   - `_`：匹配当前位置单个字符
 
-  - `%`：匹配指定位置多个字符
+  - `%`：匹配指定位置零个或多个字符
 
   > 匹配以my开头的多个数据 `'my%';`
   > 获取以m开头，第二个字符不确定，最后以database结尾的数据 `'m_database';`
   > 获取以database结尾的数据 `'%database';`
+  >
   > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6ANE}$QLU4JIHA8JP1Y`7%R.png?raw=true">
 
 ## 显示数据库创建语句
@@ -543,7 +544,7 @@ insert into <tablename> [(fieldname,...)] values(value1,...)
 
 **基本语法**
 
-- 查询全部数据
+- 查询全部数据（通配符'*'表示表中全部字段）
 
   ```sql
   select * from <tablename>;
