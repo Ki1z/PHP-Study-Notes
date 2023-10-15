@@ -243,7 +243,7 @@ MySQL服务端架构由以下几层构成：
 > ```sql
 > create database <databasename> [databaseoption];
 > ```
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8K7LY6@72GW@TU1XXBM`YSO.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8K7LY6@72GW@TU1XXBM`YSO.png?raw=true">
 
 **库选项 DatabaseOption**
 
@@ -265,7 +265,7 @@ create database <databasename> collate {collationname};
 
 每当用户通过SQL指令创建一个数据库，系统就会产生一个对应的存储数据的文件夹
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/7MQY8ISC5$X]4ELTA92FXIR.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/7MQY8ISC5$X]4ELTA92FXIR.png?raw=true">
 
 每个文件下都有一个opt文件，保存的是对应的数据库选项
 
@@ -277,7 +277,7 @@ create database <databasename> collate {collationname};
   show databases;
   ```
 
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QH1}ZW}P]ES~$UUUA~{]{95.png?row=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QH1}ZW}P]ES~$UUUA~{]{95.png?raw=true">
 
 - 显示部分库
 
@@ -294,7 +294,7 @@ create database <databasename> collate {collationname};
   > 匹配以my开头的多个数据 `'my%';`
   > 获取以m开头，第二个字符不确定，最后以database结尾的数据 `'m_database';`
   > 获取以database结尾的数据 `'%database';`
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6ANE}$QLU4JIHA8JP1Y`7%R.png?row=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6ANE}$QLU4JIHA8JP1Y`7%R.png?raw=true">
 
 ## 显示数据库创建语句
 
@@ -304,7 +304,7 @@ create database <databasename> collate {collationname};
 show create database <databasename>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@YL)Q1TS{3IKI1M$I}E@%DW.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@YL)Q1TS{3IKI1M$I}E@%DW.png?raw=true">
 
 ## <span id="select_database">选择数据库</span>
 
@@ -318,7 +318,7 @@ show create database <databasename>;
 use <databasename>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/B[KAU0$%}I2N93N0WJU@B1L.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/B[KAU0$%}I2N93N0WJU@B1L.png?raw=true">
 
 ## 修改数据库
 
@@ -332,7 +332,7 @@ use <databasename>;
 alter database <databasename> {charset/collate} [=] {charsetname/collationname};
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`3IQA)H`0}(%5Y~6R78R}P5.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`3IQA)H`0}(%5Y~6R78R}P5.png?raw=true">
 
 ## 删除数据库
 
@@ -344,7 +344,7 @@ alter database <databasename> {charset/collate} [=] {charsetname/collationname};
 drop database <databasename>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L%{PL]K1T(XNJPBYVF}NXT7.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L%{PL]K1T(XNJPBYVF}NXT7.png?raw=true">
 
 ---
 
@@ -360,7 +360,7 @@ drop database <databasename>;
 create table <tablename>(<fieldname> <fieldtype> [fieldattribute],...) [tableoption];
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/SBOJI%BY494628IN_IZXI{O.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/SBOJI%BY494628IN_IZXI{O.png?raw=true">
 
 错误信息：表必须放到对应的数据库下，有两中方式可以将表挂入到指定的数据库下
 
@@ -408,7 +408,7 @@ create table [databasename.]<tablename> like [databasename.]<tablename>;
   show tables;
   ```
 
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/C6IWMFEFNF7MM~1HP3ZNUUR.png?row=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/C6IWMFEFNF7MM~1HP3ZNUUR.png?raw=true">
 
 - 显示部分表
 
@@ -418,7 +418,7 @@ create table [databasename.]<tablename> like [databasename.]<tablename>;
 
 - 匹配模式[点击参考上文](#match_mode)
 
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/XS9JE(0ELNVH{EXCIW8TN(2.png?row=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/XS9JE(0ELNVH{EXCIW8TN(2.png?raw=true">
 
 ## 显示表结构
 
@@ -430,7 +430,7 @@ create table [databasename.]<tablename> like [databasename.]<tablename>;
 {Describe/Desc/show columns from} <tablename>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6_FV{TAH9LBT3XF7_P~Z%AL.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6_FV{TAH9LBT3XF7_P~Z%AL.png?raw=true">
 
 **解释**
 
@@ -456,7 +456,7 @@ create table [databasename.]<tablename> like [databasename.]<tablename>;
 show create table <tablename>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/R2[UQDNI]_QUMP(IK0HKIZR.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/R2[UQDNI]_QUMP(IK0HKIZR.png?raw=true">
 
 
 ## 修改表结构
@@ -517,7 +517,7 @@ show create table <tablename>;
 drop table <tablename>[,tablename,...];
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/2N{}9GOC5KX}W{99UK}L}6H.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/2N{}9GOC5KX}W{99UK}L}6H.png?raw=true">
 
 ---
 
@@ -533,11 +533,11 @@ drop table <tablename>[,tablename,...];
 insert into <tablename> [(fieldname,...)] values(value1,...)
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/}MXSOXSNFZ_3~0U6N@O@ISN.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/}MXSOXSNFZ_3~0U6N@O@ISN.png?raw=true">
 
 如果指定了 `fieldname` ，则每个 `value` 对应一个 `fieldname` ；若没有指定 `fieldname` ，则默认向所有字段插入一个 `value` ，且 `value` 结构必须与 `fieldname` 结构一致
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3DJ(6V9A1@@B%KH8UK({WQY.png?row=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3DJ(6V9A1@@B%KH8UK({WQY.png?raw=true">
 
 ## 查询操作
 
@@ -561,6 +561,6 @@ insert into <tablename> [(fieldname,...)] values(value1,...)
   select <fieldname>[,fieldname...] from <tablename> where <fieldname> = <value>;
   ```
 
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L9@YAY{_2})USSF7{]%Q8]S.png?row=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L9@YAY{_2})USSF7{]%Q8]S.png?raw=true">
 
   *解释：获取表中满足条件fieldname = value数据的fieldname下的值*
