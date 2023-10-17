@@ -611,7 +611,7 @@ update <tablename> set <fieldname> = <value> [where condition];
 
 如果直接通过CMD下的mysql.exe进行中文数据插入，可能出错
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/LP@QQ9~CQ89PX~GU{Q2DD]G.png?ra=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/LP@QQ9~CQ89PX~GU{Q2DD]G.png?raw=true">
 
 出错原因：
 
