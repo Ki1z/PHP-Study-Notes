@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-15`
+`更新时间：2023-10-17`
 
 注释解释：
 
@@ -544,11 +544,13 @@ insert into <tablename> [(fieldname,...)] values(value1,...)
 
 **基本语法**
 
-- 查询全部数据（通配符'*'表示表中全部字段）
+- 查询全部数据
 
   ```sql
   select * from <tablename>;
   ```
+
+  *通配符 `*` 表示选择表中所有数据*
 
 - 查询表中部分字段
 
@@ -565,3 +567,77 @@ insert into <tablename> [(fieldname,...)] values(value1,...)
   > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L9@YAY{_2})USSF7{]%Q8]S.png?raw=true">
 
   *解释：获取表中满足条件fieldname = value数据的fieldname下的值*
+
+## 删除操作
+
+**基本语法**
+
+```sql
+delete from <tablename> [where condition];
+```
+
+*如果没有指定 `where condition` ，系统会默认删除表中所有数据，慎用*
+
+> 删除年龄为20岁的人
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/$PO8`T1VF9LY)W~86OH(0%1.png?raw=true">
+
+## 更新操作
+
+将数据进行修改，通常是修改部分字段数据
+
+**基本语法**
+
+```sql
+update <tablename> set <fieldname> = <value> [where condition];
+```
+
+*如果没有指定 `where condition` ，那么所有的表中的对应字段都会被修改为统一的值*
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`9WATOY6{U%6UP)9N_C@QUP.png?raw=true">
+
+---
+
+# 字符集
+
+## 字符编码概念
+
+字符 `Character` 是一种文字和符号的总成，包括各国家文字、标点符号、图形符号、数字等。字符编码 `Character Code` 是计算机针对各种符号，在计算机中的一种二进制存储代号
+
+## 字符集概念
+
+字符集 `Character Set` 是多个字符的合集，字符集种类较多，每个字符集包含的字符个数不同。常见的字符集 `ASCII` , `GB2312` , `BIG5` , `GB18030` , `Unicode` 等。计算机要准确地处理各种字符集文字，需要进行字符编码，以便计算机能够识别和存储各种文字。中文文字数目较大，而且还分为简体中文和繁体中文两种不同书写规则的文字，而计算机最初是按照英语单字节字符设计的，因此，对中文字符进行编码，是中文信息交流的技术基础
+
+## 设置客户端所有字符集
+
+如果直接通过CMD下的mysql.exe进行中文数据插入，可能出错
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/LP@QQ9~CQ89PX~GU{Q2DD]G.png?ra=true">
+
+出错原因：
+
+1. 用户是通过mysql.exe来操作mysqld.exe
+
+2. 真正的SQL执行是mysqld.exe来执行
+
+3. mysql.exe在将数据传入mysqld.exe时，没有指定字符集，mysqld.exe使用其默认字符集
+
+**解决方案**
+
+mysql.exe客户端在进行数据操作之前，为mysqld.exe指定字符集
+
+- 快捷方案：
+
+  ```sql
+  set names <charsetname>;
+  ```
+
+- 深层原理：mysql.exe与mysqld.exe之间的处理关系一共分为三层
+
+  > 客户端数据传输数据给服务端： Client
+  > 服务端返回数据给客户端： Server
+  > 客户端与服务端之间的连接： Connection
+
+`set names` 的本质：一次性打通三层关系的字符集，变得一致。在系统中有三个变量来记录这三个关系对应的字符集，查询语句 `show variables like 'character_set_%';`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`O6W58FCW}520AE]~E@_0(9.png?raw=true">
+
