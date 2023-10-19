@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-17`
+`更新时间：2023-10-19`
 
 注释解释：
 
@@ -641,3 +641,98 @@ mysql.exe客户端在进行数据操作之前，为mysqld.exe指定字符集
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`O6W58FCW}520AE]~E@_0(9.png?raw=true">
 
+- `charcacter_set_client` ：客户端传入字符集
+
+- `character_set_connnection` ：连接层字符集
+
+- `charcacter_set_database` ：当前数据库字符集
+
+- `charcacter_set_filesystem` ：文件系统字符集
+
+- `charcacter_set_results` ：服务端返回结果字符集
+
+**修改变量**
+
+```sql
+set {variablename} = value;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/C5XEXCFIBDGW16%(VOQF]BF.png?raw=true">
+
+---
+
+# 列类型（字段类型）
+
+## 整数类型
+
+**Tinyint**
+
+迷你整型，系统采用一个字节来保存的整型。一个字节对应8位，能表示的数值范围（无符号）为0~255
+
+**Smallint**
+
+小整形，系统采用两个字节保存。
+
+**Mediumint**
+
+中整型，系统采用三个字节保存。
+
+**Int**
+
+标准整型，系统采用四个字节保存。
+
+**Bigint**
+
+大整型，系统采用八个字节保存。
+
+**无符号标识设定**
+
+在类型之后加上 `unsigned` ，如 `int unsigned`
+
+**显示长度**
+
+指数据（整型）在数据显示的时候，具体可以显示多少位
+
+> `tinyint(3)` ：表示最长可以显示3位
+> `int(11)` ：表示最长可以显示11位
+
+*这里的位是指十进制位*
+
+显示长度只是代表了数据是否可以达到指定长度，但不会自动填充到指定长度，若想要保持最高位输出，需要给字段添加一个 `zerofill` 属性（同 `unsigned` ）
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6~_9Q7E8IAXG0W@XRIF3X@8.png?raw=true">
+
+`zerofill` ：从左侧开始填充0，直到需要显示的数据。负数不能使用zerofill，使用zerofill属性的字段，自动确定为unsigned
+
+## 小数类型
+
+专门用来存储小数。在MySQL中小数类型又分为两类：浮点型和定点型
+
+### 浮点型
+
+浮点型，又称之为精度类型，是一种有可能丢失精度的数据类型，数据有可能不那么精确，尤其是在超出范围的时候
+
+*注意：如果精度丢失，浮点型将以四舍五入的方式保留精度位，其余位补0*
+
+**Float**
+
+float又称为单精度类型，系统提供4个字节来存储数据，但是能表示的数据范围比整型大得多，大概是10^38，只能保证7个左右的精度
+
+基本语法：
+
+- `float` ：表示不定小数位的浮点数
+
+- `float(M , D)` ：表示一共存储M个有效数字，其中小数位占D位
+
+**Double**
+
+double又称为双精度类型，系统提供8个字节来存储数据，表示的范围更大，能达到10^308，但是精度也只有15位左右
+
+> 浮点型之所以能够存储较大的数值（不准确），是因为利用存储数据的位来存储指数
+> 整型：
+> 1 1 1 1 1 1
+> 计算结果：1 * 2^0^ + 1 * 2^1^ + 1 * 2^2^ + 1 * 2^3^ + 1 * 2^4^ + 1 * 2^5^ = 63
+> 浮点型：
+> 1 1 1 1 1 1
+> 前两位作10的指数
+> 计算结果：10^(1 * 2^0^ + 1 * 2^1^) * (1 * 2^0^ + 1 * 2^1^ + 1 * 2^2^ + 1 * 2^3^) = 15000
