@@ -579,6 +579,7 @@ delete from <tablename> [where condition];
 *如果没有指定 `where condition` ，系统会默认删除表中所有数据，慎用*
 
 > 删除年龄为20岁的人
+> 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/$PO8`T1VF9LY)W~86OH(0%1.png?raw=true">
 
 ## 更新操作
@@ -878,6 +879,7 @@ enum(value1,value2,value3...)
 实际上enum所存储的值并不是真正的字符串，而是字符串对应的下标，当系统设定枚举类型的时候，会给每个枚举项定义一个下标，下标从1开始
 
 > enum(1 => 'male' , 2 => 'female' , 3 => 'secret')
+> 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/)U0D{2P2(VBJQVU9VZ60}ZR.png?raw=true">
 
 **枚举的意义**
@@ -913,6 +915,7 @@ set(value1,value2,value3...)
 每个选项都对应一个二进制位，如上图，指定所有选项被选中为11111100，hobby内第一行则为10011000。然后将二进制位逆序，再转换为十进制数进行存储
 
 > 10011000 > 00011001 > 1 * 2^0^ + 1 * 2^3^ + 1 * 2^4^ = 25
+> 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/A2@EV6U`12KY@93H_T`4UEK.png?raw=true">
 
 以数值形式插入
