@@ -1,12 +1,12 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-19`
+`更新时间：2023-10-21`
 
 注释解释：
 
 - `<>`必填项，必须在当前位置填写相应数据
 
-- `{}`选择必填项，必须在当前位置选择一个给出的选项
+- `{}`必选项，必须在当前位置选择一个给出的选项
 
 - `[]`可选项，可以选择填写或忽略
 
@@ -718,21 +718,257 @@ set {variablename} = value;
 
 float又称为单精度类型，系统提供4个字节来存储数据，但是能表示的数据范围比整型大得多，大概是10^38，只能保证7个左右的精度
 
-基本语法：
+**基本语法**
 
 - `float` ：表示不定小数位的浮点数
 
 - `float(M , D)` ：表示一共存储M个有效数字，其中小数位占D位
 
+*浮点数的应用：通常是用来保存一些数量特别大，大到可以不用精确的数据*
+
 **Double**
 
 double又称为双精度类型，系统提供8个字节来存储数据，表示的范围更大，能达到10^308，但是精度也只有15位左右
 
-> 浮点型之所以能够存储较大的数值（不准确），是因为利用存储数据的位来存储指数
-> 整型：
-> 1 1 1 1 1 1
-> 计算结果：1 * 2^0^ + 1 * 2^1^ + 1 * 2^2^ + 1 * 2^3^ + 1 * 2^4^ + 1 * 2^5^ = 63
-> 浮点型：
-> 1 1 1 1 1 1
-> 前两位作10的指数
+> 浮点型之所以能够存储较大的数值（不准确），是因为利用存储数据的位来存储指数<br/>
+> 整型：<br/>
+> 1 1 1 1 1 1<br/>
+> 计算结果：1 * 2^0^ + 1 * 2^1^ + 1 * 2^2^ + 1 * 2^3^ + 1 * 2^4^ + 1 * 2^5^ = 63<br/>
+> 浮点型：<br/>
+> 1 1 1 1 1 1<br/>
+> 前两位作10的指数<br/>
 > 计算结果：10^(1 * 2^0^ + 1 * 2^1^) * (1 * 2^0^ + 1 * 2^1^ + 1 * 2^2^ + 1 * 2^3^) = 15000
+
+### 定点型
+
+能够保证数据精确的小数类型，小数部分可能不精确，超出长度会四舍五入，整数部分一定精确
+
+**Decimal**
+
+系统自动根据存储的数据来分配存储空间，每大概9个十进制位就会分配四个字节，同时小数部分和整数部分分开
+
+**基本语法**
+
+`decimal(M , D)` ：M表示总长度，最大值不能超过65，D代表小数部分长度，最大值能超过30
+
+### 浮点型与定点型的比较
+
+**创建表**
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/(H]Y}7L@@OBCZYZY$7@@SGG.png?raw=true">
+
+**插入数据**
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/EBZGWDY1PN}KA%[GHU`GN1T.png?raw=true">
+
+**插入最大数据**
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8IG72GEH}1S[`NO43F0M]_H.png?raw=true">
+
+## 日期时间类型
+
+### Date
+
+日期类型，系统使用三个字节来存储数据，对应格式为 `YYYY-MM-DD` ，能表示的范围为1000-01-01到9999-12-12，初始值为0000-00-00
+
+### Time
+
+时间类型，能够表示某个指定的时间，但是系统同样提供三个字节来存储，对应格式为 `HH:mm:ss` ，但是MySQL中的time类型能够表示的时间范围要大得多，能表示从-838:59:59到838:59:59，在MySQL中具体的用处是来描述时间段
+
+### Datetime
+
+日期时间类型，就是将前面的date和time结合起来，表示的时间使用八个字节存储数据，格式为 `YYYY-mm-dd HH:mm:ss` ，能表示的范围为1000-01-01 00:00:00到9999-12-12 23:59:59，初始值为0000-00-00 00:00:00
+
+### Timestamp
+
+时间戳类型，MySQL中的时间戳只是表示从格林威治时间开始所对应的时间，但格式为 `YYYY-mm-dd HH:mm:ss` ，时间戳类型不能为空，默认值为当前时间戳
+
+### Year
+
+年类型，系统使用一个字节存储，能表示的范围为1900到2155年，但是year有两种插入方式，一种是两位数0到99，另一种则是四位数插入
+
+## 日期时间类型示例
+
+**创建表**
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/ELFN_~VGNJ(T965EK9R7~11.png?raw=true">
+
+**插入数据**
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/U_EUU`~8H(]XQUJ$ZY2N%X2.png?raw=true">
+
+**Year的特殊性**
+
+Year可以采用两位数的数据插入，也可以使用四位数的数据插入
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/B7$IOP$RPU(JDH(NNNL7}QR.png?raw=true">
+
+Year使用两位数插入的时候，有区间划分，临界点为69和70，若输入69及以下，则显示20XX年，若输入70及以上，则显示19XX年
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Q7]_~AL2H}5FS8V_(0_S{[6.png?raw=true">
+
+**Timestamp的特殊性**
+
+每当表中其他数据被更新，则会自动更新当前时间戳
+
+*详见上图中d4列*
+
+## 字符串类型
+
+### Char
+
+定长字符，指定长度后，系统一定会分配指定的空间用于存储数据
+
+**基本语法**： `char(length)` ，length范围为0到255
+
+### Varchar
+
+变长字符，指定长度后，系统会根据实际存储的数据来计算长度，分配合适的长度
+
+**基本语法**： `varchar(length)` length理论范围为0到65535
+
+*因为要记录数据长度，varchar会额外占用一到两个字节*
+
+### Text
+
+文本类型，本质上MySQL提供了两种文本类型
+
+- `Text` ：存储普通文本
+
+- `Blob` ：存储二进制文本（图片，文件）
+
+系统提供了四种text
+
+- `Tinytext` ：系统使用一个字节来存储，实际能够存储的数据为 2^8^ + 1
+
+- `Text` ：使用两个字节保存，实际能够存储的数据为 2^16^ + 2
+
+- `Mediumtext` ：使用三个字节保存，实际能够存储的数据为 2^24^ + 3
+
+- `Longtext` ：使用四个字节保存，实际能够存储的数据为 2^32^ + 4
+
+*注意：在选择对应的存储文本的时候，不用刻意选择text类型，系统会自动根据存储的数据长度来选择合适的文本类型*
+
+### Enum
+
+枚举类型，在插入数据之前，设定几个可能出现的项，最后结果从这几个项中出现。系统提供了一到两个字节来存储枚举数据，通过计算enum列举的具体值来选择实际的存储空间
+
+**基本语法**
+
+```sql
+enum(value1,value2,value3...)
+```
+
+**示例**
+
+- 创建表
+
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/~~(65NEE_`]7S6VQAONWLXE.png?raw=true">
+
+- 插入合法数据
+
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/[{@5L{WF}%7P~$05(60)J`A.png?raw=true">
+
+- 插入非法数据
+
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/KHPLJMING5F]EX`S48JE}2I.png?raw=true">
+
+**储存原理**
+
+实际上enum所存储的值并不是真正的字符串，而是字符串对应的下标，当系统设定枚举类型的时候，会给每个枚举项定义一个下标，下标从1开始
+
+> enum(1 => 'male' , 2 => 'female' , 3 => 'secret')
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/)U0D{2P2(VBJQVU9VZ60}ZR.png?raw=true">
+
+**枚举的意义**
+
+1. 规范数据数据本身，限定只能插入规定的数据项
+
+2. 节省存储空间
+
+### Set
+
+集合，一种将多个数据选项可以同时保存的数据类型，本质是将指定的项按照对应的二进制位来进行控制。1表示该选项被选中，0表示该选项没有被选中。系统为set提供了多个字节进行保存，但是系统会自动计算来选择具体存储的单元，每个字节会提供8个选项，最多8个字节。set和enum一样，存储的是字符串下标，而不是真实的字符串
+
+**基本语法**
+
+```sql
+set(value1,value2,value3...)
+```
+
+**示例**
+
+- 创建表
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/NX%E~]Q(}WR5XA~~@7H$]$J.png?raw=true">
+
+- 插入数据
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/)[)}@RZJLBX%WJ}%)34BHXV.png?raw=true">
+
+*数据的顺序与插入时的顺序无关，实际顺序以定义时为准*
+
+**储存原理**
+
+每个选项都对应一个二进制位，如上图，指定所有选项被选中为11111100，hobby内第一行则为10011000。然后将二进制位逆序，再转换为十进制数进行存储
+
+> 10011000 > 00011001 > 1 * 2^0^ + 1 * 2^3^ + 1 * 2^4^ = 25
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/A2@EV6U`12KY@93H_T`4UEK.png?raw=true">
+
+以数值形式插入
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/HPSA5FY[SL2DUW(DD@])$W7.png?raw=true">
+
+*数值插入的前提时每个二进制位有对应的项*
+
+**集合的意义**
+
+1. 规范数据
+
+2. 节省空间
+
+---
+
+# 列属性
+
+列属性又称为字属性，在MySQL中共有6个属性：NULL、默认值、列描述、主键、唯一键、自动增长
+
+## NULL
+
+代表字段能否为空
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/C{2H`2GF(ACL$GKKNF4{56F.png?raw=true">
+
+值：
+
+- `YES` ：可以为空
+
+- `NO` ：不能为空
+
+注意：
+
+1. 在设计表的时候，尽量不要让数据为空
+
+2. MySQL的最大记录长度为65535个字节，如果一个表中有字段NULL为YES，那么系统就会保留一个字节来存储NULL，最终有效存储长度为65534个字节
+
+## 默认值
+
+当字段被设计时，如果允许默认条件下，用户不进行数据插入，那么就使用默认值来填充，一般默认值为NULL
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/9Q0T~C2ZA422(MTESF]Z`@T.png?raw=true">
+
+*default关键字可以在定义时使用*
+
+## 列描述
+
+专门用于给开发人员进行维护的一个注释说明
+
+**基本语法**
+
+```sql
+comment `字段描述`;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3[2W~4~9]IXKDY(P~_@_VF8.png?raw=true">
+
+*只能使用创建查看语句查询*
