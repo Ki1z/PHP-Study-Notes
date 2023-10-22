@@ -1216,7 +1216,7 @@ alter table <tablename> drop index <keyname>;
 
 设计老师和学生表，包括老师和学生的相关信息
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QBH9W}SS5XXWW8(UQ~V43]C.png>raw=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QBH9W}SS5XXWW8(UQ~V43]C.png?raw=true">
 
 一个老师教过多个学生，一个学生听过多个老师的课，单纯使用两张表无法体现其关系
 
