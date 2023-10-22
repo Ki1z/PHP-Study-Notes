@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-21`
+`更新时间：2023-10-22`
 
 注释解释：
 
@@ -857,7 +857,7 @@ Year使用两位数插入的时候，有区间划分，临界点为69和70，若
 **基本语法**
 
 ```sql
-enum(value1,value2,value3...)
+enum(<value1>,<value2>,...)
 ```
 
 **示例**
@@ -895,7 +895,7 @@ enum(value1,value2,value3...)
 **基本语法**
 
 ```sql
-set(value1,value2,value3...)
+set(<value1>,<value2>,...)
 ```
 
 **示例**
@@ -975,3 +975,111 @@ comment `字段描述`;
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3[2W~4~9]IXKDY(P~_@_VF8.png?raw=true">
 
 *只能使用创建查看语句查询*
+
+## 主键
+
+Primary Key，主要的键，在一张表中，有且只有一个字段，里面的值具有唯一性
+
+### 创建主键
+
+#### 随表创建
+
+系统提供了两种增加主键的方式
+
+1. 直接在需要当作主键的字段之后增加 `primary key` 属性来确定主键
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/YNS6BLZEBZAN2U1[%P@{@U5.png?raw=true">
+
+2. 在所有字段之后增加 `primary key(fieldname)`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3M1L}08)@~TO[(7H6CUU$2U.png?raw=true">
+
+*注：主键创建后，NULL属性会被设置为NO*
+
+#### 表后增加
+
+**基本语法**
+
+```sql
+alter table <tablename> add primary key(<fieldname>,...);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/VH4GN_4JXJ%TM@~C0CX54BG.png?raw=true">
+
+### 查看主键
+
+1. 查看表结构 `desc <tablename>`
+
+2. 查看表创建语句 `show create table <tablename>`
+
+### 删除主键
+
+**基本语法**
+
+```sql
+alter table <tablename> drop primary key;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@$`WY2)KKQ{FW7Z7M}{9A0L.png?raw=true">
+
+*注：主键删除后，NULL属性依旧为NO*
+
+### 复合主键
+
+一个表中允许有多个主键，共同组成复合主键
+
+**示例**
+
+有一张学生选修课表，一个学生可以选择多门选修课，一个选修课也可以由多个学生选择，但是一个学生在一个选修课中只有一个成绩
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/CFICY%$8KZT{NR(J_1FD4~E.png?raw=true">
+
+### 主键约束
+
+1. 当前字段对应的数据不能为空
+
+2. 当前字段对应的数据不能有任何重复
+
+**示例**
+
+向上文创建的选修课表中插入数据
+
+- 合法插入
+
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/]WO4%C3N1WS5TU%9B7FVYB9.png?raw=true">
+
+- 非法插入
+
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/}_@6GRHND6)6~GB3%5957_M.png?raw=true">
+
+### 主键分类
+
+主键分类采用的是主键所对应的字段的业务意义分类
+
+- 业务主键：主键所在的字段，具有业务唯一性，如上文中的学生ID，课程ID等
+
+- 逻辑主键：自然增长的整型
+
+## 自动增长
+
+Auto_increment，自动增长，当给定某个字段该属性以后，该列的数据在没有提供确定数据的时候，系统会根据之前已经存在的数据进行自动增长。通常自动增长用于逻辑主键
+
+### 原理
+
+1. 在系统中有维护一组的数据，用来保存当前使用了自动增长属性的字段，记住当前对应的数据值，再给定一个指定的步长
+
+2. 当用户进行数据插入的时候，如果没有指定值，系统会在原始值上再加步长变成新的数据
+
+*自动增长仅在未指定值时触发，且仅适用于数值*
+
+### 使用自动增长
+
+**基本语法**
+
+在字段之后添加一个属性 `auto_increment`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/XBUWLXV8PD$O8L`LJBPWMW3.png?raw=true">
+
+插入数据
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L$@I9]P7SQTSK@GX3Z]137S.png?raw=true">
