@@ -936,7 +936,7 @@ set(<value1>,<value2>,...)
 
 列属性又称为字属性，在MySQL中共有6个属性：NULL、默认值、列描述、主键、唯一键、自动增长
 
-## NULL
+## Null
 
 代表字段能否为空
 
@@ -1083,3 +1083,161 @@ Auto_increment，自动增长，当给定某个字段该属性以后，该列的
 插入数据
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/L$@I9]P7SQTSK@GX3Z]137S.png?raw=true">
+
+### 修改自增长
+
+1. 查看自增长，自增长一旦触发，会自动在表的选项中添加一个选项，一张表最多只能有一个自增长
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/GXG]YR[S{P]}SF[W54LIMJ4.png?raw=true">
+
+2. 表选项可以通过修改表结构来实现
+
+**基本语法**
+
+```sql
+alter table <tablename> auto_increment = value;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/X1`{}Z}]O_%MLBE$9249EYI.png?raw=true">
+
+### 删除自增长
+
+自增长属性无法使用drop直接删除表选项，而是在字段属性之后不再保留auto_increment。系统在用户修改自增长所在字段时，如果没有auto_increment，则会自动清除自增长
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/ME7GFFU5_8I5P%NVEYK``AN.png?raw=true">
+
+*注：主键已经确定，不要再次添加primary key属性*
+
+### 初始设置
+
+在系统中，有一组变量用来维护自增长的初始值和步长
+
+```sql
+show variables like 'auto_increment%';
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/PP[]KGB`)32)%2)JULTM{97.png?raw=true">
+
+- `auto_increment_increment` ：步长
+
+- `auto_increment-offset` ：初始值
+
+## 唯一键
+
+唯一键，unique key，用来保证字段中数据的唯一，唯一键在一张表中可以有多个，且允许字段数据为NULL
+
+### 创建唯一键
+
+创建唯一键与创建主键非常类似
+
+1. 直接在表字段之后增加唯一键标识符： `unique [key]`
+
+2. 在所有表字段之后使用 `unique (<fieldname>,...)`
+
+3. 在创建完表之后通过表属性修改
+
+```sql
+alter table <tablename> add unique key(<fieldname>,...);
+```
+
+### 查看唯一键
+
+唯一键是属性，可以直接通过表属性查看
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@AK}AS$}1_QRT4@X}Y77N`3.png?raw=true">
+
+### 删除唯一键
+
+在创建唯一键时，系统会为每个唯一键指定一个名字，可以通过查看表创建语句查看
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/~86W86%RC$C6WP`OGAGUNQL.png?raw=true">
+
+**基本语法**
+
+```sql
+alter table <tablename> drop index <keyname>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/1I@3F[[[XLD(G]I``W30~QE.png?raw=true">
+
+### 复合唯一键
+
+唯一键和主键一样，可以在多个字段使用来共同保证唯一性
+
+*一般主键作为逻辑键，其他需要唯一性的内容由唯一键处理*
+
+---
+
+# 表关系
+
+表与表之间（实体）有什么样的关系，每种关系应该如何设计表结构
+
+## 一对一
+
+一张表中的一条记录与另一张表中最多有一条明确关系，通常此设计方案保证两张表中使用同样的主键即可
+
+### 示例
+
+设计学生表，包括学生相关信息
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/{Z[B[{18]U9`}APCB2(SB$J.png?raw=true">
+
+表的使用过程中，会有常用的信息与不常用的信息之分，若将常用的与不常用的同时存储，会影响查询效率
+
+**解决方案**
+
+将表拆成两张，一张存储常用数据，另一张存储不常用数据
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/(ZBPXPW}C9C6RN`6W`8~)QP.png?raw=true">
+
+## 一对多
+
+一对多，通常也叫做多对一关系。通常一对多的设计方案是在“多关系”表中维护一个字段，这个字段是“一关系”的主键
+
+### 示例
+
+设计母亲和孩子表，包括母亲和孩子的相关信息
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/49$}A73KBY3N{9[L0WFSO7G.png?raw=true">
+
+一个母亲可能对应多个孩子，单纯使用两张表无法体现其关系
+
+**解决方案**
+
+在孩子表中新建一个字段，用于维护母亲id
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/T]F3WW4OJXVU@45JL[8R`%J.png?raw=true">
+
+## 多对多
+
+一张表中的一条记录在另外一张表中可以匹配到多条记录，反之亦然。多对多的关系如果按照一对多的方案处理，就会出现一个字段中有多个其他表的主键，会阻碍查询效率。通常使用三张表解决问题
+
+### 示例
+
+设计老师和学生表，包括老师和学生的相关信息
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QBH9W}SS5XXWW8(UQ~V43]C.png>raw=true">
+
+一个老师教过多个学生，一个学生听过多个老师的课，单纯使用两张表无法体现其关系
+
+**解决方案**
+
+从中间设计一张表，用于维护两张表之间的关系，每一种关系都包含
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3O0YLYE7RG5}]RT7H3UK2L7.png?raw=true">
+
+---
+
+# 高级数据操作
+
+## 多数据插入
+
+只写一次insert指令，但是可以插入多条记录
+
+**基本语法**
+
+```sql
+insert into <tablename> [(<fieldname>,...)] values(<value1>,<value2>,...),(<value1>,<value2>,...),...;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8WXR5NTLB)V]QNTAK1}M@3E.png?raw=true">
