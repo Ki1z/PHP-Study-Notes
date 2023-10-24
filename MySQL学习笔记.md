@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-22`
+`更新时间：2023-10-24`
 
 注释解释：
 
@@ -1241,3 +1241,49 @@ insert into <tablename> [(<fieldname>,...)] values(<value1>,<value2>,...),(<valu
 ```
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8WXR5NTLB)V]QNTAK1}M@3E.png?raw=true">
+
+## 主键冲突
+
+在有的表中，使用的是业务主键，但是往往在进行数据插入时，又不确定表中是否已经存在对用的主键
+
+**解决方案**
+
+1. 主键冲突更新：类似插入语法，如果插入的过程中主键冲突，那么采用更新方法
+
+**基本语法**
+
+```sql
+insert into <tablename> [(<fieldname1>,<fieldname2>,...)] values(<value1>,<value2>,...) on duplicate key update <fieldname> = <value>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/@S{RHDIOXEZ6`A@W9LIJDZW.png?raw=true">
+
+2. 主键冲突替换：当主键冲突之后，删除原来的数据，重新插入
+
+**基本语法**
+
+```sql
+replace into <tablename> [(<fieldname1>,<fieldname2>,...)] values(<value1>,<value2>,...);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/GAZOYRGF4LM5BO)4]`MO}_T.png?raw=true">
+
+## 蠕虫复制
+
+从已有的数据中获取数据，并且将获取到的数据插入到数据表中
+
+**基本语法**
+
+```sql
+insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select */<fieldname> from <tablename>;
+```
+
+**示例**
+
+创建样本表
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/J`)XBB[I)9HZI`V0W`0I3TU.png?raw=true">
+
+蠕虫复制
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/W`($05C7GPU_$1T1~XAJ73D.png?raw=true">
