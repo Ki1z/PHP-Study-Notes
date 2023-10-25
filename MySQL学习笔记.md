@@ -1287,3 +1287,48 @@ insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select */<fieldname> f
 蠕虫复制
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/W`($05C7GPU_$1T1~XAJ73D.png?raw=true">
+
+注意：
+
+1. 蠕虫复制通常都是重复数据，没有业务意义，但是可以在短期内快速增加表的数据量，从而测试表的压力，还可以通过大量数据来测试表的效率
+
+2. 在蠕虫复制时一定要注意主键冲突
+
+## 更新数据
+
+1. 在数据更新的时候，通常是跟随条件更新
+
+**基本语法**
+
+```sql
+update <tablename> set <fieldname> = <value> where <judgement conditions>;
+```
+
+2. 如果没有指定判断条件，通常是全表更新数据。但是可以使用limit来限制更新的数量
+
+**基本语法**
+
+```sql
+update <tablename> set <fieldname> = <value> [where <judgement conditions>] limit <count>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Q)1Y(I4TST13QC22`~FK{`1.png?raw=true">
+
+## 删除数据
+
+1. 删除数据的时候尽量不要全部删除，应该使用where进行判定
+
+2. 删除数据的时候可以使用limit来限制删除的数量
+
+3. delete删除数据的时候无法重置auto_increment
+
+MySQL中有一个能够重置表选项中自增长的语法
+
+**基本语法**
+
+```sql
+truncate <tablename>;
+```
+
+## 查询数据
+
