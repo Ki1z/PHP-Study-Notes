@@ -1050,7 +1050,7 @@ alter table <tablename> drop primary key;
 
 - 非法插入
 
-  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/}_@6GRHND6)6~GB3%5957_M.png?raw=true">
+  > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/1.png?raw=true">
 
 ### 主键分类
 
@@ -1512,7 +1512,7 @@ order by和group by一样进行多字段排序，先按照第一个字段进行�
 limit <count>;
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/5T9@11]XH8%Z3ULA4ZQL%55.png?raw=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/2.png?raw=true">
 
 ### 分页
 
