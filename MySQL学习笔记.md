@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-25`
+`更新时间：2023-10-28`
 
 注释解释：
 
@@ -1275,7 +1275,7 @@ replace into <tablename> [(<fieldname1>,<fieldname2>,...)] values(<value1>,<valu
 **基本语法**
 
 ```sql
-insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select */<fieldname> from <tablename>;
+insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select {*|<fieldname>} from <tablename>;
 ```
 
 **示例**
@@ -1301,7 +1301,7 @@ insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select */<fieldname> f
 **基本语法**
 
 ```sql
-update <tablename> set <fieldname> = <value> where <judgement conditions>;
+update <tablename> set <fieldname> = <value> where <judgement condition>;
 ```
 
 2. 如果没有指定判断条件，通常是全表更新数据。但是可以使用limit来限制更新的数量
@@ -1309,7 +1309,7 @@ update <tablename> set <fieldname> = <value> where <judgement conditions>;
 **基本语法**
 
 ```sql
-update <tablename> set <fieldname> = <value> [where <judgement conditions>] limit <count>;
+update <tablename> set <fieldname> = <value> [where <condition>] limit <count>;
 ```
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Q)1Y(I4TST13QC22`~FK{`1.png?raw=true">
@@ -1332,3 +1332,314 @@ truncate <tablename>;
 
 ## 查询数据
 
+完整的SQL查询指令
+
+```sql
+select {selectoption} <fieldname> from <origindata> where <condition> group by <groupname> having <condition> order by <orderoption> limit <conditon>;
+```
+
+**SelectOption**
+
+系统该如何对待查询得到的结果
+
+- `ALL` ：默认选项，保存所有记录
+
+- `Distinct` ：去除重复的记录，只保留一条
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/GY]0OBQ%$I0D3E7RAPIT%6N.png?raw=true">
+
+*注：所有字段都重复，才会被认定为重复*
+
+**别名**
+
+有时需要从多张表中获取数据，在获取数据的时候，可能存在不用表中有同名的字段，需要将字段命名成不同的字段名
+
+**基本语法**
+
+```sql
+<fieldname> [as] <alias>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/~P$0@JSIO0EHIV7XWXUWYFI.png?raw=true">
+
+### From 数据源
+
+from为前面的查询提供数据，数据源只要是一个符合二维表结构的数据即可
+
+#### 单表数据
+
+**基本语法**
+
+```sql
+from <tablename>;
+```
+
+#### 多表数据
+
+两张表的记录数相乘，字段数拼接
+
+**基本语法**
+
+```sql
+from <tablename1>,<tablename2>,...;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/O0]LS~EKQYPPVMMONL83RIS.png?raw=true">
+
+#### 动态数据
+
+from后面的数据不是一个实体表，而是一个从表中查询出来得到的二维结果表
+
+**基本语法**
+
+```sql
+from (select <fieldname> from <tablename>) [as] <alias>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3){E{X~]05S%9FP3)6EXP]X.png?raw=true">
+
+## Where 子句
+
+用来从数据表获取数据时，进行条件筛选。指针从表对应的磁盘获取所有数据，在获取到一条数据后进行判断，若符合条件，就将数据保存到内存中，不符合则直接跳过。where通过运算符进行条件判断
+
+## Group by 子句
+
+根据指定的字段将数据进行分组，目的是统计
+
+### 分组统计
+
+**基本语法**
+
+```sql
+group by <fieldname>;
+```
+
+group by是为了分组后进行数据统计的，如果只是想看数据显示，那么group by没有意义。group by将数据分组后只会保留每组的第一条数据
+
+**统计函数**
+
+- `count()`： 统计每组中的数量，如果统计目标是字段，会忽略NULL字段，如果值为*，则为所有记录，包括NULL字段
+
+- `avg()`： 求平均值
+
+- `sum()` ：求和
+
+- `max()` ：求最大值
+
+- `min()` ：最最小值
+
+- `group_concat()` ：将分组中的指定字段进行合并
+
+**基本语法**
+
+```sql
+select <fieldname>,{founction1},{function2},... from <tablename> group by <fieldname>;
+```
+
+*注，第一列字段名应与分组的字段名一致*
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/JHNB)V$]JII2R0ADRWWI8@4.png?raw=true">
+
+### 多分组
+
+将数据按照某个字段进行分组之后，对已经分组的数据进行再次分组
+
+**基本语法**
+
+```sql
+group by <fieldanme1>,<fieldname2>,...;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/[4CB[_[JVXLO_AOO%CPV7_V.png?raw=true">
+
+### 分组排序
+
+在MySQL中，分组默认有排序功能，按照分组字段进行排序，默认是升序
+
+**基本语法**
+
+```sql
+group by <fieldname> [asc|desc][,<fieldname> [asc|desc],...];
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/DB0{KY5)BX4Q~TKVJAGJE@P.png?raw=true">
+
+### 回溯统计
+
+当前分组进行多分组之后，往上统计的过程中，需要进行上报，将这种上报统计的过程称为回溯统计。每一次分组向上统计的过程都会产生一次新的统计数据，而且当前数据对应的分组字段为NULL
+
+**基本语法**
+
+```sql
+group by <fieldname> [asc|desc] with rollup;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/MP5GJ)9DC@_W6_4G}$EW2M3.png?raw=true">
+
+## Having 子句
+
+having和where一样，用来进行数据条件筛选。having在group by之后，可以针对分组数据进行统计筛选，但是where不行
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/KS4US{PM~G96ZMKI)~Y`8WW.png?raw=true">
+
+## Order by 子句
+
+根据校对规则对数据进行排序
+
+**基本语法**
+
+```sql
+order by <fieldname> [asc|desc][,<fieldname> [asc|desc],...];
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/XHCT_OTDAPXA4(T8BIWZ7O3.png?raw=true">
+
+order by和group by一样进行多字段排序，先按照第一个字段进行排序，再按照第二个字段进行排序
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/_6_FYWQ@@FM)JG5P)[U_[4L.png?raw=true">
+
+## Limit 子句
+
+主要用来限制记录的数据数量
+
+### 记录数限制
+
+纯粹地限制获取地数量，从第一条到指定的数量
+
+**基本语法**
+
+```sql
+limit <count>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/5T9@11]XH8%Z3ULA4ZQL%55.png?raw=true">
+
+### 分页
+
+利用limit来限制获取指定区间的数据
+
+**基本语法**
+
+```sql
+limit <offset>,<length>;
+```
+
+*注：offset从0开始计数*
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/4UFZ}}K80]K3K1IGCQLP(MV.png?raw=true">
+
+---
+
+# 运算符
+
+## 算数运算符
+
+进行算数运算，通常用于结果运算中
+
+- `+` ：和
+
+- `-` ：差
+
+- `*` ：积
+
+- `/` ：除
+
+- `%` ：模
+
+**基本语法**
+
+```sql
+<fieldname> {operator} <fieldname>[,<fieldname> {operator} <fieldname>,...];
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/}OVKW6GAM([QR$$H{`S}{CL.png?raw=true">
+
+## 比较运算符
+
+通常用来在条件中进行限定结果
+
+- `>` ：大于
+
+- `>=` ：大于等于
+
+- `<` ：小于
+
+- `<=` ：小于等于
+
+- `=` ：等于
+
+- `<>` ：不等于
+
+- `<=>` ：等于
+
+**基本语法**
+
+```sql
+<fieldname> {operator} <value>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/%P984S{UOSV0`HWHHL6YE)W.png?raw=true">
+
+特殊应用：在字段结果中进行比较运算
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/8~1V%K`%$[LR9LP[~RENW8N.png?raw=true">
+
+### 区间判断
+
+查询满足某个闭区间的数据
+
+**基本语法**
+
+```sql
+<fieldname> between <minimal> and <maximum>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/YWDL`5(}NFI`C_T~@DU~]OE.png?raw=true">
+
+## 逻辑运算符
+
+- `and` ：逻辑与，可写作 `&&`
+
+- `or` ：逻辑或，可写作 `||`
+
+- `not` ：逻辑非 可写作 `!`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Y$672XAC`(A{60CH20[[0`O.png?raw=true">
+
+## In 运算符
+
+用来替代等于，当结果不是一个值，而是一个结果集的时候
+
+**基本语法**
+
+```sql
+<fieldname> in (value1,value2,...);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/KGRRX%](H~4IX(46FBL6~)6.png?raw=true">
+
+## Is 运算符
+
+专门用来判断字段是否为NULL的运算符
+
+**基本语法**
+
+```sql
+<fieldname> is {null|not null};
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/JD[1[MVEW6H%WXIWMBCN9KU.png?raw=true">
+
+## Like 运算符
+
+用来进行模糊匹配
+
+**基本语法**
+
+```sql
+<fieldname> like {'matchmode'};
+```
+
+[占位符](#match_mode)详见上文
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Y93RIRG`0S_~29)Z3[XE`YQ.png?raw=true">
