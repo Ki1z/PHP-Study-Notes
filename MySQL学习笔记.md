@@ -1904,3 +1904,121 @@ select {*|fieldname} from (select <fieldname> from <tablename> where <judgementc
 
 获取每个班上身高最高的学生
 
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/~PMN%_N3}2EG~UQC41}9S%Y.png?raw=true">
+
+**特别说明**
+
+在MySQL5.7版本之后，属性 `only_full_group_by` 默认开启，直接执行上文语句会报错
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6AK7CVU[_T(KE0@96I5CQ(A.png?raw=true">
+
+解决方法：关闭该属性
+
+```sql
+set sql_mode=(select replace(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+
+## Exists 子查询
+
+**基本语法**
+
+```sql
+select {*|fieldname} from <tablename> where exists(select {*|fieldname} from <tablename> where <judgementcondition>);
+```
+
+**示例**
+
+获取有学生在班的班级名
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/G3]V7%P4[CMQE2FO[QHM}K3.png?raw=true">
+
+## 特殊关键字
+
+### In 关键字
+
+条件在查询结果中存在，用法： `in(列子查询)`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/EQLHB9)HQM9L@RQB9O5KU)7.png?raw=true">
+
+### Any 关键字
+
+条件在查询结果中有任意一个匹配的值，用法： `{=|<>} any(列子查询)` ，等价于in
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/%V{6H9%M}7%}]_[9)E2SINA.png?raw=true">
+
+### Some 关键字
+
+some与any完全一致
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/(~FPCY)]D53}I%BWP~Y2M6V.png?raw=true">
+
+### All 关键字
+
+条件在查询结果中全部匹配，用法 `{=|<=>} all(列子查询)`
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`(Z9WA[X$`8{13D~BA[C{7F.png?raw=true">
+
+---
+
+## 整库数据备份与还原
+
+整库数据备份也叫SQL数据备份，备份的结果都是SQL指令。在MySQL中提供了一个专门用于备份SQL的客户端：mysqldump.exe
+
+### 应用场景
+
+SQL备份是一种mysql非常常见的备份与还原方式，SQL备份不只是备份数据，还备份对应的SQL指令。SQL备份需要备份结构，因此产生的文件较大，不适合特大型数据库备份，也不适合数据变换频繁型数据库备份
+
+### 应用方案
+
+#### SQL备份
+
+SQL备份用到的是专门的客户端，因此需要与MySQL服务器进行连接
+
+**基本语法**
+
+```sql
+mysqldump.exe -h<hostip> -P<post> -u<username> -p<password> <databasename> [<tablename1>,<tablename2>,...] > <filelocation>
+```
+
+备份可以有三种形式：
+
+1. 整库备份，只提供数据库名
+
+2. 单表备份，只提供一张表名
+
+3. 多表备份，提供多张表明
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/DM1]LVL[EIR7%GYSVDG2FFV.png?raw=true">
+
+*注：此处的filelocation可用相对路径*
+
+#### SQL还原
+
+MySQL提供了两种方式来还原
+
+1. 利用mysql.exe客户端
+
+**基本语法**
+
+```sql
+mysql.exe -h<hostip> -P<post> -u<username> -p<password> <databasename> < <filelocation>
+```
+
+*注：还原时的数据库名应存在于mysql中*
+
+2. SQL指令中提供了一种导入SQL指令的方式
+
+**基本语法**
+
+```sql
+source <filelocation>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/9D[R5`4GU$81J[APF%QP_(U.png?raw=true">
+
+*注：sql指令导入时，应先进入需要还原的数据库*
+
+---
+
+# 用户权限管理
+
