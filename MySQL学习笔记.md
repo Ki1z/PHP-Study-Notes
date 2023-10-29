@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-28`
+`更新时间：2023-10-29`
 
 注释解释：
 
@@ -487,7 +487,7 @@ show create table <tablename>;
 - 修改字段名
 
   ```sql
-  alter table <tablename> change <tablename> <newtablename> <fieldtype> [columnattribute] [location];
+  alter table <tablename> change <fieldname> <fieldname> <fieldtype> [columnattribute] [location];
   ```
 
 - 修改字段类型
@@ -1301,7 +1301,7 @@ insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select {*|<fieldname>}
 **基本语法**
 
 ```sql
-update <tablename> set <fieldname> = <value> where <judgement condition>;
+update <tablename> set <fieldname> = <value> where <judgementcondition>;
 ```
 
 2. 如果没有指定判断条件，通常是全表更新数据。但是可以使用limit来限制更新的数量
@@ -1643,3 +1643,264 @@ limit <offset>,<length>;
 [占位符](#match_mode)详见上文
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/Y93RIRG`0S_~29)Z3[XE`YQ.png?raw=true">
+
+---
+
+# 联合查询
+
+## 基本概念
+
+联合查询是可合并多个相似的选择查询的结果集，等同于将一个表追加到另一个表，进行纵向合并，字段数不变，查询记录数合并，从而实现将两个表的查询组合到一起，使用谓词为 `UNION` 或 `UNION ALL`
+
+## 应用场景
+
+1. 将同一张表中不用的结果合并到一起展示数据
+
+2. 在数据量大的情况下，会对表进行分表操作，需要对每张表进行部分数据统计，使用联合查询来将数据存放到一起显示
+
+## 基本语法
+
+```sql
+select <statement> union [unionoption] select <statement>;
+```
+
+## UnionOption
+
+与select选项基本一致
+
+- `Distinct` ：默认值，去重
+
+- `All` ：显示全部记录
+
+**示例**
+
+将男女分开显示
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/5DQ4$TXD4$2Q)N}$89(~F1N.png?raw=true">
+
+## Order by的使用
+
+1. 在联合查询中，使用order by的select语句必须使用括号
+
+2. 若要使order by生效，需要使用limit
+
+非法语句
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/_0L3$]$]11I1UKNP$1[KR4T.png?raw=true">
+
+合法语句
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/M`]RP{1R5JLIGQ)X75~8$Q8.png?raw=true">
+
+---
+
+# 连接查询
+
+## 基本概念
+
+将多张表连接到一起进行查询，记录数和字段数列都会发生改变
+
+**意义**
+
+在关系型数据库中，实体与实体之间是存在很多联系的。在关系型数据库的设计过程中，遵循着一对一，一对多，多对多，通常在实际操作过程中，需要利用这层关系来保证数据的完整性
+
+## 连接查询分类
+
+连接查询共分为以下几类：
+
+- 交叉连接
+
+- 内连接
+
+- 外连接
+
+  - 左外连接
+
+  - 右外连接
+
+- 自然连接
+
+## 交叉连接
+
+将一张表的数据与另一张表彼此交叉
+
+### 原理
+
+1. 从第一张表中依次取出每一条记录
+
+2. 取出每一条记录之后，与另一张表的全部记录匹配
+
+3. 没有任何匹配条件，所有的结果都会进行保留
+
+4. 记录数 = 第一张表记录数 * 第二张表记录数，字段数 = 第一张表字段数 + 第二张表字段数
+
+### 基本语法
+
+```sql
+select {*|fieldname} fropm <tablename> cross join <tablename>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/9([%)Z60CYJ9U6(FVQ6T5XS.png?raw=true">
+
+*注：交叉连接产生的数据是笛卡尔积，没有实际意义，应尽量避免出现*
+
+## 内连接
+
+从一张表中取出所有数据去另一张表中匹配，利用匹配条件进行匹配，成功则保留，失败则跳过
+
+### 原理
+
+1. 从第一张表中依次取出每一条记录
+
+2. 取出每一条记录之后，与另一张表的全部记录利用匹配条件匹配
+
+3. 匹配成功保留，失败跳过
+
+### 基本语法
+
+```sql
+select {*|fieldname} fropm <tablename> [inner] join <tablename> on <judgementconditon>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/ZP]JB]XVUAB$9$FXH9_T7ZB.png?raw=true">
+
+## 外连接
+
+按照某一张表作为主表，根据条件去连接另一张表，从而得到目标数据。主表的记录一定会保留
+
+外连接分为左连接 `left join` 和右连接 `right join` 两种，表示主表位置
+
+### 原理
+
+1. 确定连接主表
+
+2. 用主表的每一条记录，去匹配从表的每一条记录
+
+3. 满足条件保留数据，不满足跳过
+
+4. 所有记录都没有匹配成功也会保留字段名，字段值都为NULL
+
+### 基本语法
+
+```sql
+select {*|fieldname} fropm <tablename> {left|right} join <tablename> on <judgementconditon>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/BZI0N6S43I2T%HD{1P%6[8H.png?raw=true">
+
+## Using 关键字
+
+在来凝结查询中用来代替对应的on关键字，进行条件匹配
+
+### 原理
+
+1. 在来连接查询时，使用using代替on
+
+2. 连接的两张表的字段同名
+
+### 基本语法
+
+```sql
+select {*|fieldname} fropm <tablename> {inner|left|right} join <tablename> on using(<fieldname1>,<fieldname2>,...);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/4~PG7$D)GCRI7Z6ZRYQVX_6.png?raw=true">
+
+---
+
+# 子查询
+
+## 子查询概念
+
+子查询是一种常用计算机语言SELECT-SQL中嵌套查询下层的程序模块，当一个查询是另一个查询的条件，称为子查询
+
+### 主查询概念
+
+主要的查询对象，第一条select语句，确定用户所有获取的数据源，具体到得到的字段信息
+
+### 子查询与主查询的关系
+
+1. 子查询是嵌入到主查询中的
+
+2. 子查询辅助主查询，要么作为条件，要么作为数据源
+
+3. 子查询可以独立存在，是一条完整的select语句
+
+## 子查询分类
+
+### 按功能分类
+
+- 标量子查询：子查询返回的结果是一个数据
+
+- 列子查询：返回的结果是一列
+
+- 行子查询：返回的数据是一行
+
+- 表子查询：返回的结果是多行多列
+
+- Exists子查询：返回的结果是1或0
+
+### 按位置分
+
+- Where子查询：子查询在where条件中
+
+- From子查询：子查询在from数据源中
+
+## 标量子查询
+
+**基本语法**
+
+```sql
+select <fieldname> from <tablename> where <fieldname> {=|<>} (select <fieldname> from <tablenames> where <judgementcondition>);
+```
+
+**示例**
+
+通过一个学生的名字，查询到所在班级名
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/5@RX2V(VLSMCZ7_6D%QFB}6.png?raw=true">
+
+## 列子查询
+
+**基本语法**
+
+```sql
+select <fieldname> from <tablename> where <fieldname> in (select <fieldname> from <tables>);
+```
+
+**示例**
+
+获取有学生在班的班级名
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/G1%%OW4HL`{RM}I]Y2)3894.png?raw=true">
+
+## 行子查询
+
+### 行元素
+
+字段元素是指一个字段对应的值，行元素是指将多个字段合起来作为一个元素参与运算
+
+**基本语法**
+
+```sql
+select <fieldname> from <tablename> where (<fieldname1>,<fieldname2>,...) = (select <fieldname1>,<fieldname2>,... from <tablename>);
+```
+
+**示例**
+
+获取班上年龄最大，身高最高的学生
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/SN5PL%87IIPW4EQOR)QUNKA.png?raw=true">
+
+## 表子查询
+
+**基本语法**
+
+```sql
+select {*|fieldname} from (select <fieldname> from <tablename> where <judgementcondition>) as <alias> [group by <groupname> having <condition> order by <orderoption> limit <conditon>];
+```
+
+**示例**
+
+获取每个班上身高最高的学生
+
