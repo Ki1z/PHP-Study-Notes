@@ -2058,7 +2058,7 @@ create user <username>[@'{hostaddress|%|*}' identified by '<password>'];
 drop user <username>@'<hostaddress>';
 ```
 
-> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/AL)%112OL1V@LPHT4~@)8GH.png?raw=true">
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/3.png?raw=true">
 
 ### 修改用户密码
 
