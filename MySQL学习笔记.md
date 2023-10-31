@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-29`
+`更新时间：2023-10-31`
 
 注释解释：
 
@@ -2022,3 +2022,84 @@ source <filelocation>;
 
 # 用户权限管理
 
+在不同的项目给不同的角色不同的操作权限，为了保证数据库的数据安全
+
+## 用户管理
+
+MySQL需要客户端进行认证才能进行服务器操作。MySQL中所有的用户信息的都保存在MySQL数据库下的user表中
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/(4$2~BKRZ)@WEZPR~5%YK4P.png?raw=true">
+
+- `User` ：用户的用户名
+
+- `Host` ：允许访问的主机
+
+### 创建用户
+
+理论上可以采用两种方式
+
+1. 直接使用root用户在mysql.user中插入记录
+
+2. 专门创建用户的SQL指令
+
+**基本语法**
+
+```sql
+create user <username>[@'{hostaddress|%|*}' identified by '<password>'];
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/%$IEC5]L8TN220WQWEVQP~J.png?raw=true">
+
+### 删除用户
+
+**基本语法**
+
+```sql
+drop user <username>@'<hostaddress>';
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/AL)%112OL1V@LPHT4~@)8GH.png?raw=true">
+
+### 修改用户密码
+
+MySQL中提供了多种修改密码的方式，但基本上都必须使用系统提供的函数 `password()` 来对密码进行加密处理
+
+1. 使用专门的修改密码的指令
+
+**基本语法**
+
+```sql
+set password for <username>@'<hostaddress>' = password('<password>');
+```
+
+2. 使用更新语句来修改表
+
+**基本语法**
+
+```sql
+update mysql.user set password = password('<password>') [where user = '<username>' {&&|and} host = '<hostadress>'];
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/TK8NH9BK27()Z2CC}C36V8C.png?raw=true">
+
+*注：作者使用的MySQL版本5.7.26中，password字段名被更改为authentication_string*
+
+## 权限管理
+
+在MySQL中权限分为三类
+
+- 数据权限：增删改查（select|update|delete|insert）
+
+- 结构权限：结构操作（create|drop）
+
+- 管理权限：权限管理（create user|grant|revoke）
+
+### 授予权限
+
+将权限分配给指定的用户
+
+**基本语法**
+
+```sql
+grant <authoritylist> on {databasename|*}.{tablename|*} to <username>
+```
