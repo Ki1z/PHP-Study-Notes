@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-10-31`
+`更新时间：2023-11-1`
 
 注释解释：
 
@@ -2094,12 +2094,130 @@ update mysql.user set password = password('<password>') [where user = '<username
 
 - 管理权限：权限管理（create user|grant|revoke）
 
-### 授予权限
+### 授予权限 Grant
 
 将权限分配给指定的用户
 
 **基本语法**
 
 ```sql
-grant <authoritylist> on {databasename|*}.{tablename|*} to <username>
+grant <authoritylist> on {databasename|*}.{tablename|*} to <username>;
 ```
+
+**AuthorityList 权限列表**
+
+使用逗号分隔，但是可以使用all privileges代表全部权限
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/D3}8}}%S%8YW7NZR(JVAD3Q.png?raw=true">
+
+### 取消权限 Revoke
+
+权限回收，将权限从用户手中收回
+
+**基本语法**
+
+```sql
+revoke {authoritylist|all privileges} on {databasename|*}.{tablename|*} from <username>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/QRC00BVC0$Q{DQ$K)U$SYAG.png?raw=true">
+
+### 权限刷新 Flush
+
+刷新当前对用户的权限操作，将操作的内容同步到对应表中
+
+**基本语法**
+
+```sql
+flush privileges;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/){})CD0}KY8HYY2KO$Z)%Y5.png?raw=true">
+
+## 密码找回
+
+1. 停止服务
+
+```shell
+net stop mysql
+```
+
+2. 重启服务
+
+```shell
+mysqld.exe --skip-grant-tables
+```
+
+3. 当前启动的服务端不需要任何用户信息就可以直接登录，并且为root权限
+
+4. 修改密码
+
+5. 重启服务
+
+---
+
+# 外键
+
+## 概念
+
+如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。外键表示了两个关系之间的相关联系，以另一个关系的外键作为主关键字的表被称为主表，具有此外键的表被称为主表的从表，外键又被称为关键字。简单来说，就是一张表中的一个字段，保存的值指向另外一张表的主键
+
+## 外键操作
+
+### 增加外键
+
+MySQL中提供了两种方式增加外键
+
+- 在创建表的时候增加外键
+
+**基本语法**
+
+```sql
+[constraint `外键名`] foreign key(fieldname) references <tablename>(primary key);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/7IC}KYM0E{G]4@RPX0~[X(M.png?raw=true">
+
+- 在创建表后增加外键
+
+**基本语法**
+
+```sql
+alter table <tablename> add [constraint `外键名`] foreign key(fieldname) references <tablename>(primary key);
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/$[S)RE$7VLDIJDN@WE1446C.png?raw=true">
+
+### 删除外键
+
+外键不允许修改，只能删除后重新指定
+
+**基本语法**
+
+```sql
+alter table <tablename> drop foreign key <keyname>;
+```
+
+*注：keyname可以查看表创建语句*
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`9D3NEYMRK8V9U{3[XUEI82.png?raw=true">
+
+删除外键时，不会删除创建外键时同时创建的普通索引，需要单独删除
+
+**基本语法**
+
+```sql
+alter table <tablename> drop index <indexname>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/O@@V{K(VLA$Z1PIH]$LA9KG.png?raw=true">
+
+### 外键基本要求
+
+- 外键字段类型需要与关联主表的字段类型完全一致
+
+- 基本属性也要相同
+
+- 如果是在创建表后指定外键，对从表数据与主表数据的关联关系有一定要求
+
+- 外键只能使用innodb存储引擎，myisam不支持
