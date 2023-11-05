@@ -1,6 +1,6 @@
 # Ki1z's MySQL学习笔记
 
-`更新时间：2023-11-1`
+`更新时间：2023-11-5`
 
 注释解释：
 
@@ -2221,3 +2221,83 @@ alter table <tablename> drop index <indexname>;
 - 如果是在创建表后指定外键，对从表数据与主表数据的关联关系有一定要求
 
 - 外键只能使用innodb存储引擎，myisam不支持
+
+### 外键约束
+
+通过建立外键关系之后，对主表和从表都会有一定的数据约束效率
+
+#### 约束的基本概念
+
+- 当一个外键产生时，外键所在的表会受制于主表数据的存在从而导致数据不能进行某些不符合规范的操作
+
+- 如果一张表被其他表外键引入，那么该表的数据操作就不能随意，必须保证从表数据的有效性
+
+#### 外键约束的概念
+
+可以在创建外键的时候，对外键约束进行选择性的操作
+
+**基本语法**
+
+```sql
+add foreign key(fieldname) references <talbename>(fieldname) on {district|cascade|set null};
+```
+
+- `District` ：严格模式，不允许更改，默认值
+
+- `Cascade` ：级联模式，同时更改主表与从表的数据
+
+- `Set NULL` ：置空模式，如果外键字段允许为空，当主表删除，从表数据自动设置为NULL
+
+通常在进行约束模式的时候，需要指定操作：update和delete。常用的操作模式：on update cascade on delete set null，更新级联，删除置空
+
+#### 约束作用
+
+保证数据的完整性，主表与从表数据一致。正是因为外键有非常强大的数据约束作用，而且可能导致数据在后台变化的不可控，导致程序在进行开发的逻辑的时候，没有办法很好地把握数据，外键一般比较少使用
+
+---
+
+# 视图基本操作
+
+## 创建视图
+
+视图的本质是SQL指令
+
+**基本语法**
+
+```sql
+create view <viewname> as select...;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/BI)F(HX)SEIKA(N5}D})6YQ.png?raw=true">
+
+## 使用视图
+
+视图本身是虚拟表，所以一些关于表的操作也适用于视图，但是视图本身没有数据，是临时执行select语句得到对应的结果，视图主要用于查询操作
+
+**基本语法**
+
+```sql
+select {fieldname|*} from <viewname> [clause];
+```
+
+## 修改视图
+
+本质是修改视图对应的查询语句
+
+**基本语法**
+
+```sql
+alter view <viewname> as select...;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/1$HWKQJ~`G1(5OS_4@_D%N7.png?raw=true">
+
+## 删除视图
+
+**基本语法**
+
+```sql
+drop view <viewname>;
+```
+
+> <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/EDLRS9@[04(%9PSHU(KL~O8.png?raw=true">
