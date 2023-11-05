@@ -285,7 +285,7 @@ create database <databasename> collate {collationname};
   show databases like {'matchmode'};
   ```
 
-- <div id="match_mode">匹配模式（通配符） MatchMode</div>
+- <div id="match_mode">匹配模式 MatchMode</div>
 
   - `_`：匹配当前位置单个字符
 
@@ -330,7 +330,7 @@ use <databasename>;
 **基本语法**
 
 ```sql
-alter database <databasename> {charset/collate} [=] {charsetname/collationname};
+alter database <databasename> {charset|collate} [=] {charsetname|collationname};
 ```
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/`3IQA)H`0}(%5Y~6R78R}P5.png?raw=true">
@@ -428,7 +428,7 @@ create table [databasename.]<tablename> like [databasename.]<tablename>;
 **基本语法**
 
 ```sql
-{Describe/Desc/show columns from} <tablename>;
+{Describe|Desc|show} columns from <tablename>;
 ```
 
 > <img src="https://github.com/Ki1z/PHP-Study-Notes/blob/main/Image/6_FV{TAH9LBT3XF7_P~Z%AL.png?raw=true">
@@ -473,7 +473,7 @@ show create table <tablename>;
 - 修改表选项
 
   ```sql
-  alter table <tablename> {engine/charset/collate} [=] {enginename/charsetname/collationname};
+  alter table <tablename> {engine|charset|collate} [=] {enginename|charsetname|collationname};
   ```
 
   *注：如果数据库已经确定，表中已经存在数据，不要轻易修改表选项*
@@ -934,7 +934,7 @@ set(<value1>,<value2>,...)
 
 # 列属性
 
-列属性又称为字属性，在MySQL中共有6个属性：NULL、默认值、列描述、主键、唯一键、自动增长
+列属性又称为字段属性，在MySQL中共有6个属性：NULL、默认值、列描述、主键、唯一键、自动增长
 
 ## Null
 
@@ -1275,7 +1275,7 @@ replace into <tablename> [(<fieldname1>,<fieldname2>,...)] values(<value1>,<valu
 **基本语法**
 
 ```sql
-insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select {*|<fieldname>} from <tablename>;
+insert into <tablename> [(<fieldname1>,<fieldname2>,...)] select {*|fieldname} from <tablename>;
 ```
 
 **示例**
@@ -1790,7 +1790,7 @@ select {*|fieldname} fropm <tablename> {left|right} join <tablename> on <judgeme
 
 ## Using 关键字
 
-在来凝结查询中用来代替对应的on关键字，进行条件匹配
+在连接查询中用来代替对应的on关键字，进行条件匹配
 
 ### 原理
 
@@ -1915,7 +1915,7 @@ select {*|fieldname} from (select <fieldname> from <tablename> where <judgementc
 解决方法：关闭该属性
 
 ```sql
-set sql_mode=(select replace(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+set sql_mode = (select replace(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
 ## Exists 子查询
@@ -2088,11 +2088,11 @@ update mysql.user set password = password('<password>') [where user = '<username
 
 在MySQL中权限分为三类
 
-- 数据权限：增删改查（select|update|delete|insert）
+- 数据权限：增删改查（ `select` | `update` | `delete` | `insert` ）
 
-- 结构权限：结构操作（create|drop）
+- 结构权限：结构操作（ `create` | `drop` ）
 
-- 管理权限：权限管理（create user|grant|revoke）
+- 管理权限：权限管理（ `create user` | `grant` | `revoke` ）
 
 ### 授予权限 Grant
 
@@ -2239,7 +2239,7 @@ alter table <tablename> drop index <indexname>;
 **基本语法**
 
 ```sql
-add foreign key(fieldname) references <talbename>(fieldname) on {district|cascade|set null};
+add foreign key(fieldname) references <talbename>(fieldname) on [update|delete] {district|cascade|set null};
 ```
 
 - `District` ：严格模式，不允许更改，默认值
